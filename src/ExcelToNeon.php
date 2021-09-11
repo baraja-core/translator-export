@@ -17,15 +17,14 @@ class ExcelToNeon
 	private bool $emptyStrings;
 
 
-	public function convert(string $file, string $outputFolder, bool $emptyStrings = false)
+	public function convert(string $file, string $outputFolder, bool $emptyStrings = false): void
 	{
 		$this->emptyStrings = $emptyStrings;
 		$this->output = [];
 
 		$rows = SimpleExcelReader::create($file)->getRows();
 		$rows->each(
-			function (array $row): void
-			{
+			function (array $row): void {
 				if (!isset($this->output[$row['domain']])) {
 					$this->output[$row['domain']] = [];
 				}
@@ -46,8 +45,10 @@ class ExcelToNeon
 				}
 			}
 		);
+		/** @phpstan-ignore-next-line */
 		foreach ($this->output as $fileItem => $rest) {
 			foreach ($rest as $language => $array) {
+				/** @phpstan-ignore-next-line */
 				if (!empty($array)) {
 					$neon = Neon::encode($array, Neon::BLOCK);
 					FileSystem::write($outputFolder . '/' . $fileItem . '.' . $language . '.neon', $neon);
@@ -61,6 +62,8 @@ class ExcelToNeon
 	 * Create multidimensional array
 	 * credits:
 	 * https://www.daniweb.com/programming/web-development/threads/476988/create-multidimensional-array-from-array-of-keys-and-a-value
+	 * @param array<int, string> $keys
+	 * @return array<int, mixed>
 	 */
 	private function toArray(array $keys, mixed $value): array
 	{

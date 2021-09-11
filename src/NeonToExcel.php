@@ -36,7 +36,7 @@ final class NeonToExcel
 	 */
 	private function loadNeonFiles(string $localeDir): array
 	{
-		$files = glob($localeDir . '/*.neon');
+		$files = (array) glob($localeDir . '/*.neon');
 		$return = [];
 		foreach ($files as $file) {
 			$neon = Neon::decode(FileSystem::read($file));
@@ -61,8 +61,8 @@ final class NeonToExcel
 	 * from: title->language->id->string
 	 * into: title->id->language->string
 	 *
-	 * @param array<string, array<string, array<int, string>> $filesGrouped
-	 * @return array<string, array<int, array<string, string>>>
+	 * @param array<string, array<string, array<int, string>>> $filesGrouped
+	 * @return array<string, array<int|string, array<string, mixed>>>
 	 */
 	private function transformArray(array $filesGrouped): array
 	{
@@ -117,6 +117,7 @@ final class NeonToExcel
 	/**
 	 * Convert multidimensional array into: xx.yy.zz => (string) value
 	 *
+	 * @param array<string, mixed> $array
 	 * @return array<string, string>
 	 */
 	private function parseMultiNeon(array $array): array
@@ -137,6 +138,7 @@ final class NeonToExcel
 	/**
 	 * Get keys of multidimensional array like xx.yy.zz
 	 *
+	 * @param array<string, mixed> $haystack
 	 * @return array<int, string>
 	 */
 	private function getKeys(array $haystack): array
