@@ -1,7 +1,7 @@
 {
-	"name": "baraja-core/template",
+	"name": "baraja-core/translator-export",
 	"description": "This is a template package.",
-	"homepage": "https://github.com/baraja-core/template",
+	"homepage": "https://github.com/baraja-core/translator-export",
 	"authors": [
 		{
 			"name": "Jan Barášek",
@@ -9,7 +9,10 @@
 		}
 	],
 	"require": {
-		"php": "^8.0"
+		"php": "^8.0",
+		"nette/utils": "^3.2",
+		"nette/neon": "^3.2",
+		"spatie/simple-excel": "^1.2",
 	},
 	"require-dev": {
 		"tracy/tracy": "^2.8",

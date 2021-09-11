@@ -1,4 +1,4 @@
-Template
-========
+Translator export
+=================
 
-This is a template package.
+Export NEON translator files to Excel and import back.
