@@ -63,7 +63,7 @@ class ExcelToNeon
 	 * credits:
 	 * https://www.daniweb.com/programming/web-development/threads/476988/create-multidimensional-array-from-array-of-keys-and-a-value
 	 * @param array<int, string> $keys
-	 * @return array<int, mixed>
+	 * @return array<string, mixed>
 	 */
 	private function toArray(array $keys, mixed $value): array
 	{

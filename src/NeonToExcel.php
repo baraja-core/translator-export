@@ -39,9 +39,12 @@ final class NeonToExcel
 		$files = (array) glob($localeDir . '/*.neon');
 		$return = [];
 		foreach ($files as $file) {
+			if (is_file($file) === false) {
+				continue;
+			}
 			$neon = Neon::decode(FileSystem::read($file));
 			if ($neon !== null) {
-				$pathParts = explode('/', $file);
+				$pathParts = explode('/', (string) $file);
 				[$title, $locale] = explode('.', $pathParts[count($pathParts) - 1]);
 
 				// add to the list of available languages
@@ -61,7 +64,7 @@ final class NeonToExcel
 	 * from: title->language->id->string
 	 * into: title->id->language->string
 	 *
-	 * @param array<string, array<string, array<int, string>>> $filesGrouped
+	 * @param array<string, array<string, array<string, string>>> $filesGrouped
 	 * @return array<string, array<int|string, array<string, mixed>>>
 	 */
 	private function transformArray(array $filesGrouped): array
@@ -70,10 +73,10 @@ final class NeonToExcel
 		foreach ($filesGrouped as $title => $temp) {
 			$return[$title] = [];
 			foreach ($this->locales as $language) {
-				$lastId = false;
+				$lastId = null;
 				foreach ($temp[$language] as $id => $value) {
 					if (!isset($return[$title][$id])) {
-						if ($lastId) {
+						if ($lastId !== null) {
 							Arrays::insertAfter($return[$title], $lastId, [$id => []]);
 						} else {
 							$return[$title][$id] = [];
@@ -90,7 +93,7 @@ final class NeonToExcel
 
 
 	/**
-	 * @param array<string, array<int, array<string, string>>> $finalArray
+	 * @param array<string, array<int|string, array<string, mixed>>> $finalArray
 	 */
 	private function renderExcelFile(array $finalArray, string $outputFile): void
 	{
