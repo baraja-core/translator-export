@@ -39,12 +39,13 @@ final class NeonToExcel
 		$files = (array) glob($localeDir . '/*.neon');
 		$return = [];
 		foreach ($files as $file) {
-			if (is_file($file) === false) {
+			$filePath = (string) $file;
+			if (is_file($filePath) === false) {
 				continue;
 			}
-			$neon = Neon::decode(FileSystem::read($file));
+			$neon = Neon::decode(FileSystem::read($filePath));
 			if ($neon !== null) {
-				$pathParts = explode('/', (string) $file);
+				$pathParts = explode('/', $filePath);
 				[$title, $locale] = explode('.', $pathParts[count($pathParts) - 1]);
 
 				// add to the list of available languages
