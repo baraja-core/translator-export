@@ -43,7 +43,7 @@ class ExcelToNeon
 						}
 					}
 				}
-			}
+			},
 		);
 		/** @phpstan-ignore-next-line */
 		foreach ($this->output as $fileItem => $rest) {
